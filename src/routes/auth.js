@@ -15,7 +15,10 @@ authRouter.post("/signup", async (req,res)=>{
             emailId,
             password:hashPassword,
         });
-        
+        const userExist = await User.findOne({emailId});
+        if(userExist){
+            throw new Error("User Already Exist")
+        }
         const savedUser = await user.save();
         const token = await savedUser.getJWT();
         res.cookie("token", token, {
@@ -23,10 +26,7 @@ authRouter.post("/signup", async (req,res)=>{
         });
         res.status(200).json({
             message: "User Registered Successfully",
-            user: {
-                firstName: savedUser.firstName,
-                lastName: savedUser.lastName,
-        },
+            user: savedUser,
         });
 
     } catch (err) {
@@ -37,8 +37,7 @@ authRouter.post("/signup", async (req,res)=>{
 authRouter.post("/login", async(req, res)=>{
     const {emailId, password} =req.body;
     try{
-        const user = await User.findOne({emailId});
-      
+        const user = await User.findOne({emailId})  
         if(!user){
             throw new Error("Invalid Credentials");            
         }
@@ -61,7 +60,7 @@ authRouter.post("/login", async(req, res)=>{
 
     }
     catch(err){
-        res.status(err.statusCode || 400).send("Error:"+ err.message);
+        res.status(err.statusCode || 400).send(err.message);
     }
 })
 
