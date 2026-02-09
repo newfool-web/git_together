@@ -80,7 +80,7 @@ userRouter.get("/user/feed", userAuth, async (req, res)=>{
             ]
         }).select("fromUserId toUserId")
 
-        console.log(connectionRequest)
+        
 
         const hideUsersFromFeed = new Set();
         connectionRequest.forEach((req)=>{
