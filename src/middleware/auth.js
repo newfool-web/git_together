@@ -11,7 +11,7 @@ const userAuth = async (req, res, next) =>{
             error.statusCode = 401;
             throw error;
         }
-        const isTokenValid = await jwt.verify(token, "SECRETKEY");
+        const isTokenValid = await jwt.verify(token, process.env.JWT_SECRET);
 
         const {_id} = isTokenValid;
 
