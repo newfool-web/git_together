@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 // Base path for Vercel serverless (all routes under /api)
-const basePath = process.env.VERCEL ? "/api" : "";
+const basePath = process.env.VERCEL ? "/api" : "/";
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:5173",
